@@ -22,6 +22,6 @@ public class Post {
     @Column(updatable = true, name="BODY", columnDefinition = "varchar(max)")
     private String body;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
-    private Set<Comment> comments;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+//    private Set<Comment> comments;
 }
