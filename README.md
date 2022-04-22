@@ -14,4 +14,6 @@ For run this project you should do the following steps:
 
 4- open [swagger link](http://localhost:8089/api/swagger-ui/index.html) to see all Api's
 
+5- after run project you can access to in memory database with url [databaseUrl](http://localhost:8089/api/h2-console/)
+
 

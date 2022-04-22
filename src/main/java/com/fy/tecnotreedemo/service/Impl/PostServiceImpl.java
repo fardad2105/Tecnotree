@@ -7,6 +7,8 @@ import com.fy.tecnotreedemo.service.PostService;
 import com.fy.tecnotreedemo.web.domain.PostDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,14 @@ public class PostServiceImpl implements PostService {
 
     private final PostDao postDao;
 
+    private final Logger LOG = LoggerFactory.getLogger(PostServiceImpl.class);
+
     @Override
     public PageDto<PostDto> getPosts(PageRequest pageRequest) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for get pagination list of Posts");
+        }
+        LOG.info("going to get pagination list of Posts ");
         final var posts = postDao.findAll(pageRequest);
         return buildDto(posts);
     }
@@ -31,20 +39,30 @@ public class PostServiceImpl implements PostService {
         if (!postDao.existsById(id)) {
             throw new PostNotFoundException("Post with id: " + id + " not found!", HttpStatus.NOT_FOUND);
         }
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for get post by id");
+        }
+        LOG.info("going to get post by id {}", id);
         return toPostDto(postDao.getById(id));
     }
 
     @Override
     public List<PostDto> getPostsWithCustomKeyword(String title) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for getPostsWithCustomKeyword");
+        }
         final var postDtos = postDao.findByTitleContaining(title);
-        return  postDtos.stream()
-                .map(
-                        this::toPostDto
-                ).toList();
+        List<PostDto> postDtoList = postDtos.stream()
+                .map(this::toPostDto).toList();
+        LOG.info("get list with this condition keyword has size {}", postDtoList.size());
+        return postDtoList;
     }
 
     @Override
     public PostDto savePost(PostDto postDto) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for savePost");
+        }
         Post post = new Post();
         post.setUserId(postDto.userId());
         post.setTitle(postDto.title());
@@ -54,6 +72,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto updatePost(long id, PostDto postDto) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for savePost");
+        }
         if (!postDao.existsById(id)) {
             throw new PostNotFoundException("Post with id: " + id + " not found!", HttpStatus.NOT_FOUND);
         } else {
@@ -61,14 +82,20 @@ public class PostServiceImpl implements PostService {
             updatedPost.setUserId(postDto.userId());
             updatedPost.setTitle(postDto.title());
             updatedPost.setBody(postDto.body());
+            LOG.info("post with title {} updated", updatedPost.getTitle());
             return toPostDto(postDao.save(updatedPost));
         }
     }
 
     @Override
     public void deletePostById(long id) {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for deletePostById");
+        }
         if (!postDao.existsById(id))
             throw new PostNotFoundException("Post with id: " + id + " not found!", HttpStatus.NOT_FOUND);
+
+        LOG.info("Post with id {} deleted", id);
         postDao.deleteById(id);
     }
 
