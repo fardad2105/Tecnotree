@@ -6,7 +6,7 @@ The following repo contains CRUD Api's for Tecnotree project
 ## Guidelines
 For run this project you should do the following steps:
 
-1. Clone this repository
+1-Clone this repository
 
 2- clean and install maven for download dependencies
 

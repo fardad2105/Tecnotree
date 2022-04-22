@@ -34,7 +34,7 @@ public class OpenApiDocConfig {
                 .version("1.0")
                 .contact(new Contact()
                         .name("Fardad Yadegar")
-                        .url("#")
+                        .url("https://fardadyadegar.ir/")
                         .email("fardadyadegare@yahoo.com"))
                 .license(new License()
                         .name("Tecnotree License")
