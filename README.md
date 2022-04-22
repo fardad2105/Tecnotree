@@ -1,4 +1,4 @@
-# Tecnotree Rest Services for Post and Comment and ToDos
+# Tecnotree
 
 ## Overview
 The following repo contains CRUD Api's for Tecnotree project
