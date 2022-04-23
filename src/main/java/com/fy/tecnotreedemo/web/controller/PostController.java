@@ -44,7 +44,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
         PostDto createdPost = postService.savePost(postDto);
-        return new ResponseEntity<PostDto>(createdPost, HttpStatus.OK);
+        return new ResponseEntity<PostDto>(createdPost, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

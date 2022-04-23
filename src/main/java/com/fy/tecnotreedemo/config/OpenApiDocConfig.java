@@ -20,7 +20,6 @@ public class OpenApiDocConfig {
                 .build();
     }
 
-
     @Bean
     public OpenAPI api() {
         return new OpenAPI()

@@ -21,13 +21,10 @@ public class CommandLineRunnerImpl  implements CommandLineRunner {
     private final getToDos GetToDos;
     private final getComments GetComments;
 
-
     @Override
     public void run(String... args) throws Exception {
         // Start the clock
         long start = System.currentTimeMillis();
-
-
 
         // Kick of multiple, asynchronous lookups
         CompletableFuture<Set<Post>> postList = GetPosts.getPosts();

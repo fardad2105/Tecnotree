@@ -52,6 +52,9 @@ public class PostServiceImpl implements PostService {
             LOG.debug("Start debug for getPostsWithCustomKeyword");
         }
         final var postDtos = postDao.findByTitleContaining(title);
+        if (postDtos.size() == 0) {
+            throw new PostNotFoundException("Posts with this condition not found!",HttpStatus.NOT_FOUND);
+        }
         List<PostDto> postDtoList = postDtos.stream()
                 .map(this::toPostDto).toList();
         LOG.info("get list with this condition keyword has size {}", postDtoList.size());
