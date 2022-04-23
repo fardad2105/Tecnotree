@@ -1,14 +1,9 @@
 package com.fy.tecnotreedemo.domain.comment;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fy.tecnotreedemo.domain.post.Post;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import javax.persistence.*;
 
 @Entity

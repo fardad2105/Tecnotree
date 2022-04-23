@@ -1,6 +1,5 @@
 package com.fy.tecnotreedemo.service;
 
-import com.fy.tecnotreedemo.domain.post.Post;
 import com.fy.tecnotreedemo.web.domain.PostDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import org.springframework.data.domain.PageRequest;

@@ -28,7 +28,7 @@ public class getCommentsImpl implements getComments {
 
     @Async
     @Override
-    public CompletableFuture<Set<Comment>> getComments() throws InterruptedException {
+    public CompletableFuture<Set<Comment>> catchComments() throws InterruptedException {
         LOG.info("Starting Catch Comment data....");
         String url = "https://jsonplaceholder.typicode.com/comments";
         Comment[] comments = restTemplate.getForObject(url, Comment[].class);

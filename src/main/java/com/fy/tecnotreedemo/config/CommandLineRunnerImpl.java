@@ -27,9 +27,9 @@ public class CommandLineRunnerImpl  implements CommandLineRunner {
         long start = System.currentTimeMillis();
 
         // Kick of multiple, asynchronous lookups
-        CompletableFuture<Set<Post>> postList = GetPosts.getPosts();
-        CompletableFuture<Set<Comment>> commentList = GetComments.getComments();
-        CompletableFuture<Set<ToDo>> toDosList = GetToDos.getToDos();
+        CompletableFuture<Set<Post>> postList = GetPosts.catchPosts();
+        CompletableFuture<Set<Comment>> commentList = GetComments.catchComments();
+        CompletableFuture<Set<ToDo>> toDosList = GetToDos.catchToDos();
 
         // Wait until they are all done
         CompletableFuture.allOf(postList,commentList,toDosList);

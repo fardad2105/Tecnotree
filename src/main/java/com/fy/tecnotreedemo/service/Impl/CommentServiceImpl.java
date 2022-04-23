@@ -2,11 +2,9 @@ package com.fy.tecnotreedemo.service.Impl;
 
 import com.fy.tecnotreedemo.domain.comment.Comment;
 import com.fy.tecnotreedemo.domain.comment.CommentDao;
-import com.fy.tecnotreedemo.domain.post.Post;
 import com.fy.tecnotreedemo.exception.CommentNotFoundException;
 import com.fy.tecnotreedemo.service.CommentService;
 import com.fy.tecnotreedemo.web.domain.CommentDto;
-import com.fy.tecnotreedemo.web.domain.PostDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

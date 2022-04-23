@@ -28,7 +28,7 @@ public class getPostsImpl implements getPosts {
 
     @Async
     @Override
-    public CompletableFuture<Set<Post>> getPosts() throws InterruptedException {
+    public CompletableFuture<Set<Post>> catchPosts() throws InterruptedException {
         LOG.info("Starting Catch Posts data ....");
         String url = "https://jsonplaceholder.typicode.com/posts";
         Post[] posts = restTemplate.getForObject(url,Post[].class);

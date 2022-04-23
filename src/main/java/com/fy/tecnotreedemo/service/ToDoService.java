@@ -1,6 +1,5 @@
 package com.fy.tecnotreedemo.service;
 
-import com.fy.tecnotreedemo.domain.todo.ToDo;
 import com.fy.tecnotreedemo.web.domain.ToDoDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import org.springframework.data.domain.PageRequest;

@@ -28,7 +28,7 @@ public class getToDosImpl implements getToDos {
 
     @Async
     @Override
-    public CompletableFuture<Set<ToDo>> getToDos() throws InterruptedException {
+    public CompletableFuture<Set<ToDo>> catchToDos() throws InterruptedException {
         LOG.info("Starting Catch todos data ....");
         String url = "https://jsonplaceholder.typicode.com/todos";
         ToDo[] toDos = restTemplate.getForObject(url, ToDo[].class);
