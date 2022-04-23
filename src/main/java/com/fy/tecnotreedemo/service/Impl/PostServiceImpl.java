@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto updatePost(long id, PostDto postDto) {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Start debug for savePost");
+            LOG.debug("Start debug for updatePost");
         }
         if (!postDao.existsById(id)) {
             throw new PostNotFoundException("Post with id: " + id + " not found!", HttpStatus.NOT_FOUND);
