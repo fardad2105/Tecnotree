@@ -26,12 +26,13 @@ public class getToDosImpl implements getToDos {
         this.toDoDao = toDoDao;
     }
 
-    @Async
+    @Async // @Scheduled(fixedRate = 10_000)
     @Override
     public CompletableFuture<Set<ToDo>> catchToDos() throws InterruptedException {
         LOG.info("Starting Catch todos data ....");
         String url = "https://jsonplaceholder.typicode.com/todos";
         ToDo[] toDos = restTemplate.getForObject(url, ToDo[].class);
+        assert toDos != null;
         Set<ToDo> toDoSet = Set.of(toDos);
         toDoDao.saveAll(toDoSet);
         Thread.sleep(1000L);

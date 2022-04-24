@@ -44,7 +44,8 @@ class PostServiceImplTest {
     }
 
     @Test
-    void getPosts() throws InterruptedException {
+    void getPosts() {
+        savedPost = postService.savePost(postDto);
         PageDto<PostDto> getPosts = postService.getPosts(PageRequest.of(0, 10));
         List<PostDto> postDtoList = getPosts.body().stream().toList();
         assertTrue(postDtoList.size() != 0);

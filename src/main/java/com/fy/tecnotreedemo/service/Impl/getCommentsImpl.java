@@ -26,12 +26,13 @@ public class getCommentsImpl implements getComments {
         this.commentDao = commentDao;
     }
 
-    @Async
+    @Async // @Scheduled(fixedRate = 10_000)
     @Override
     public CompletableFuture<Set<Comment>> catchComments() throws InterruptedException {
         LOG.info("Starting Catch Comment data....");
         String url = "https://jsonplaceholder.typicode.com/comments";
         Comment[] comments = restTemplate.getForObject(url, Comment[].class);
+        assert comments != null;
         Set<Comment> commentSet = Set.of(comments);
         commentDao.saveAll(commentSet);
         Thread.sleep(1000L);
