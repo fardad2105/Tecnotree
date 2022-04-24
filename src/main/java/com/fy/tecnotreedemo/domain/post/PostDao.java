@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostDao extends JpaRepository<Post, Long> {
 
     List<Post> findByTitleContaining(String title);
+
 }

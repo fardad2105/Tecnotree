@@ -6,6 +6,7 @@ import com.fy.tecnotreedemo.exception.PostNotFoundException;
 import com.fy.tecnotreedemo.service.PostService;
 import com.fy.tecnotreedemo.web.domain.PostDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
+import com.fy.tecnotreedemo.web.responses.PostDtoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,11 @@ public class PostServiceImpl implements PostService {
         LOG.info("going to get pagination list of Posts ");
         final var posts = postDao.findAll(pageRequest);
         return buildDto(posts);
+    }
+
+    @Override
+    public List<PostDtoResponse> getAllPosts() {
+        return postDao.findAll().stream().map(this::toPostResponseDto).toList();
     }
 
     @Override
@@ -62,7 +68,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto savePost(PostDto postDto) {
+    public PostDtoResponse savePost(PostDto postDto) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Start debug for savePost");
         }
@@ -70,7 +76,7 @@ public class PostServiceImpl implements PostService {
         post.setUserId(postDto.userId());
         post.setTitle(postDto.title());
         post.setBody(postDto.body());
-        return toPostDto(postDao.save(post));
+        return toPostResponseDto(postDao.save(post));
     }
 
     @Override
@@ -103,6 +109,8 @@ public class PostServiceImpl implements PostService {
     }
 
 
+
+
     private PageDto<PostDto> buildDto(final Page<Post> page) {
         final var postDtos = page.stream()
                 .map(this::toPostDto)
@@ -118,6 +126,15 @@ public class PostServiceImpl implements PostService {
     private PostDto toPostDto(Post post) {
 
         return new PostDto(post.getUserId(),
+                post.getTitle(),
+                post.getBody()
+        );
+    }
+
+    private PostDtoResponse toPostResponseDto(Post post) {
+
+        return new PostDtoResponse(post.getId(),
+                post.getUserId(),
                 post.getTitle(),
                 post.getBody()
         );

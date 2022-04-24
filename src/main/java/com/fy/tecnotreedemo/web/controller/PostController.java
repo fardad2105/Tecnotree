@@ -3,6 +3,7 @@ package com.fy.tecnotreedemo.web.controller;
 import com.fy.tecnotreedemo.service.PostService;
 import com.fy.tecnotreedemo.web.domain.PostDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
+import com.fy.tecnotreedemo.web.responses.PostDtoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,9 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
-        PostDto createdPost = postService.savePost(postDto);
-        return new ResponseEntity<PostDto>(createdPost, HttpStatus.CREATED);
+    public ResponseEntity<PostDtoResponse> createPost(@RequestBody PostDto postDto) {
+        PostDtoResponse createdPost = postService.savePost(postDto);
+        return new ResponseEntity<PostDtoResponse>(createdPost, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
