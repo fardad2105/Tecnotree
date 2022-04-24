@@ -5,6 +5,7 @@ import com.fy.tecnotreedemo.domain.todo.ToDoDao;
 import com.fy.tecnotreedemo.service.ToDoService;
 import com.fy.tecnotreedemo.web.domain.ToDoDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
+import com.fy.tecnotreedemo.web.responses.ToDoDtoResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,21 @@ public class ToDosImpl implements ToDoService {
         return toDoDtoList;
     }
 
+    @Override
+    public ToDoDtoResponse add(ToDoDto toDoDto) {
+        ToDo toDo = new ToDo();
+        toDo.setUserId(toDoDto.userId());
+        toDo.setTitle(toDoDto.title());
+        toDo.setCompleted(toDoDto.completed());
+        return toToDoResponseDto(toDoDao.save(toDo));
+    }
+
+    @Override
+    public void deleteById(long id) {
+        toDoDao.deleteById(id);
+    }
+
+
     private PageDto<ToDoDto> buildDto(final Page<ToDo> page) {
         final var todoDtos = page.stream()
                 .map(this::toToDoDto)
@@ -59,6 +75,15 @@ public class ToDosImpl implements ToDoService {
     private ToDoDto toToDoDto(ToDo toDo) {
 
         return new ToDoDto(toDo.getUserId(),
+                toDo.getTitle(),
+                toDo.getCompleted()
+        );
+    }
+
+    private ToDoDtoResponse toToDoResponseDto(ToDo toDo) {
+
+        return new ToDoDtoResponse(toDo.getId(),
+                toDo.getUserId(),
                 toDo.getTitle(),
                 toDo.getCompleted()
         );
