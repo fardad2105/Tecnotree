@@ -5,6 +5,7 @@ import com.fy.tecnotreedemo.domain.comment.CommentDao;
 import com.fy.tecnotreedemo.exception.CommentNotFoundException;
 import com.fy.tecnotreedemo.service.CommentService;
 import com.fy.tecnotreedemo.web.domain.CommentDto;
+import com.fy.tecnotreedemo.web.responses.CommentDtoResponse;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -35,16 +38,26 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto saveComment(CommentDto commentDto) {
+    public List<CommentDto> getAllComments() {
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Start debug for get list of all Comments");
+        }
+        LOG.info("going to get all list of Comments ");
+        return commentDao.findAll().stream().map(this::toCommentDto).toList();
+    }
+
+    @Override
+    public CommentDtoResponse saveComment(CommentDto commentDto) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Start debug for Save Comment");
         }
         Comment comment = new Comment();
+        comment.setPostId(commentDto.postId());
         comment.setName(commentDto.name());
         comment.setEmail(commentDto.email());
         comment.setBody(commentDto.body());
 
-        return toCommentDto(commentDao.save(comment));
+        return toCommentResponseDto(commentDao.save(comment));
     }
 
     @Override
@@ -77,6 +90,8 @@ public class CommentServiceImpl implements CommentService {
         commentDao.deleteById(id);
     }
 
+
+
     private PageDto<CommentDto> buildDto(final Page<Comment> page) {
         final var commentDtos = page.stream()
                 .map(this::toCommentDto)
@@ -91,7 +106,20 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentDto toCommentDto(Comment comment) {
 
-        return new CommentDto(comment.getName(),
+        return new CommentDto(
+                comment.getPostId(),
+                comment.getName(),
+                comment.getEmail(),
+                comment.getBody()
+        );
+    }
+
+    private CommentDtoResponse toCommentResponseDto(Comment comment) {
+
+        return new CommentDtoResponse(
+                comment.getId(),
+                comment.getPostId(),
+                comment.getName(),
                 comment.getEmail(),
                 comment.getBody()
         );

@@ -2,6 +2,7 @@ package com.fy.tecnotreedemo.web.controller;
 
 import com.fy.tecnotreedemo.service.CommentService;
 import com.fy.tecnotreedemo.web.domain.CommentDto;
+import com.fy.tecnotreedemo.web.responses.CommentDtoResponse;
 import com.fy.tecnotreedemo.web.responses.PageDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,9 +27,9 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
-        CommentDto createdComment = commentService.saveComment(commentDto);
-        return new ResponseEntity<CommentDto>(createdComment, HttpStatus.CREATED);
+    public ResponseEntity<CommentDtoResponse> createComment(@RequestBody CommentDto commentDto) {
+        CommentDtoResponse createdComment = commentService.saveComment(commentDto);
+        return new ResponseEntity<CommentDtoResponse>(createdComment, HttpStatus.CREATED);
     }
 
 
