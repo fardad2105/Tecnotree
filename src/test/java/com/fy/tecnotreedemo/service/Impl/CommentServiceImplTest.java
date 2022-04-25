@@ -77,7 +77,7 @@ class CommentServiceImplTest {
     }
 
     @Test
-    void deletedCommentById() throws InterruptedException {
+    void deletedCommentById() {
         savedComment = commentService.saveComment(commentDto);
 
         // before deleted

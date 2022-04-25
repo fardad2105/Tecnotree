@@ -23,7 +23,5 @@ public class Comment {
 
 //    @ManyToOne(fetch = FetchType.LAZY,optional = false)
 //    @JoinColumn(name = "postId", nullable = false,referencedColumnName = "id")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonIgnore
 //    private Post post;
 }
