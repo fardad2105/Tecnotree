@@ -1,6 +1,7 @@
 package com.fy.tecnotreedemo.service.Impl;
 
 import com.fy.tecnotreedemo.domain.comment.Comment;
+import com.fy.tecnotreedemo.exception.CommentNotFoundException;
 import com.fy.tecnotreedemo.service.CommentService;
 import com.fy.tecnotreedemo.web.domain.CommentDto;
 import com.fy.tecnotreedemo.web.responses.CommentDtoResponse;
@@ -50,16 +51,29 @@ class CommentServiceImplTest {
     @Test
     void saveComment() {
         savedComment = commentService.saveComment(commentDto);
-        assertEquals(savedComment.email(),commentDto.email());
+        assertEquals(savedComment.email(), commentDto.email());
     }
 
     @Test
     void updateComment() {
         savedComment = commentService.saveComment(commentDto);
         CommentDto updatedComment = new CommentDto(savedComment.id(), savedComment.name(),
-                "updateemail@yahoo.com",savedComment.body());
-        CommentDto returnUpdatedPost = commentService.updateComment(savedComment.id(),updatedComment);
-        assertEquals(returnUpdatedPost.email(),updatedComment.email());
+                "updateemail@yahoo.com", savedComment.body());
+        CommentDto returnUpdatedPost = commentService.updateComment(savedComment.id(), updatedComment);
+        assertEquals(returnUpdatedPost.email(), updatedComment.email());
+    }
+
+    @Test
+    void updateCommentWhenCommentIsNotExist() {
+        Exception exception = assertThrows(CommentNotFoundException.class, () -> {
+            commentService.updateComment(10000, new CommentDto(2L, "update comment name",
+                    "updatecomment@yahoo.com", "this is test comment body"));
+        });
+
+        String expectedMessage = "Comment with id: " + 10000 + " not found!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
@@ -69,15 +83,26 @@ class CommentServiceImplTest {
         // before deleted
         List<CommentDto> beforeDeleted = commentService.getAllComments().stream()
                 .filter(commentDtoResponse -> commentDtoResponse.email().equals(savedComment.email())).toList();
-        assertEquals(beforeDeleted.size(),1);
+        assertEquals(beforeDeleted.size(), 1);
 
         // after deleted
         commentService.deletedCommentById(savedComment.id());
         List<CommentDto> afterDeleted = commentService.getAllComments().stream()
                 .filter(commentDtoResponse -> commentDtoResponse.email().equals(savedComment.email())).toList();
-        assertEquals(afterDeleted.size(),0);
+        assertEquals(afterDeleted.size(), 0);
         savedComment = null;
 
+    }
 
+    @Test
+    void deleteCommentWhenCommentNotExist() {
+        Exception exception = assertThrows(CommentNotFoundException.class, () -> {
+            commentService.deletedCommentById(10000);
+        });
+
+        String expectedMessage = "Comment with id: " + 10000 + " not found!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

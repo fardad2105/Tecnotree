@@ -1,5 +1,6 @@
 package com.fy.tecnotreedemo.service.Impl;
 
+import com.fy.tecnotreedemo.exception.ToDoNotFoundException;
 import com.fy.tecnotreedemo.service.ToDoService;
 import com.fy.tecnotreedemo.web.domain.ToDoDto;
 import com.fy.tecnotreedemo.web.responses.PageDto;
@@ -54,5 +55,17 @@ class ToDosImplTest {
     void getToDosWithCustomCondition() {
         List<ToDoDto> toDoDtoList = toDoService.getToDosWithCustomCondition(savedToDo.userId(), savedToDo.completed());
         assertTrue(toDoDtoList.size() != 0);
+    }
+
+    @Test
+    void getToDosWithCustomCondition_NotFound() {
+        Exception exception = assertThrows(ToDoNotFoundException.class, () -> {
+            toDoService.getToDosWithCustomCondition(1000,true);
+        });
+
+        String expectedMessage = "ToDos with this conditions are not exsits!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
     }
 }

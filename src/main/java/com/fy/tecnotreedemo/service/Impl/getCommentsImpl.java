@@ -2,10 +2,12 @@ package com.fy.tecnotreedemo.service.Impl;
 
 import com.fy.tecnotreedemo.domain.comment.Comment;
 import com.fy.tecnotreedemo.domain.comment.CommentDao;
+import com.fy.tecnotreedemo.exception.CatchDataFailedException;
 import com.fy.tecnotreedemo.service.getComments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -34,6 +36,9 @@ public class getCommentsImpl implements getComments {
         Comment[] comments = restTemplate.getForObject(url, Comment[].class);
         assert comments != null;
         Set<Comment> commentSet = Set.of(comments);
+        if (commentSet.size() == 0) {
+            throw new CatchDataFailedException("Catch data from this url failed!", HttpStatus.EXPECTATION_FAILED);
+        }
         commentDao.saveAll(commentSet);
         Thread.sleep(1000L);
         return CompletableFuture.completedFuture(commentSet);
